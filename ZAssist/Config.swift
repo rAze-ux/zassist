@@ -11,6 +11,6 @@ enum AppConfig {
 
     /// Данные вашего проекта Supabase (supabase.com → Settings → API).
     /// Пример URL: https://abcdefgh.supabase.co
-    static let defaultSupabaseURL = ""
-    static let defaultSupabaseAnonKey = ""
+    static let defaultSupabaseURL = "https://aqmssswzigdcqphoyyne.supabase.co"
+    static let defaultSupabaseAnonKey = "sb_publishable_Fy3vbny0lM2Oz7uM2Rx_6A__xjokhV1"
 }

@@ -5,3 +5,5 @@ build/
 xcuserdata/
 *.xcuserstate
 .DS_Store
+# Локальные секреты — не публиковать
+supabase-db-password.txt
