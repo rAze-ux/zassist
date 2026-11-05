@@ -1,0 +1,7 @@
+# Xcode-проект генерируется XcodeGen-ом (project.yml)
+*.xcodeproj
+DerivedData/
+build/
+xcuserdata/
+*.xcuserstate
+.DS_Store
