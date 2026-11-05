@@ -7,7 +7,8 @@ on:
 
 jobs:
   build:
-    runs-on: macos-15
+    # macos-13 (Intel) — пул свободнее, чем arm64 macos-14/15
+    runs-on: macos-13
     steps:
       - name: Получить код
         uses: actions/checkout@v4
