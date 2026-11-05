@@ -45,3 +45,13 @@ jobs:
         with:
           name: ZAssist-ipa
           path: build/ZAssist.ipa
+
+      - name: Опубликовать в Releases (для установки через GBox)
+        run: |
+          gh release create "build-${{ github.run_number }}" \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "Сборка №${{ github.run_number }}" \
+            --notes "Готовый IPA для подписи в GBox личным сертификатом. Скачайте файл ZAssist.ipa на iPhone и подпишите через GBox." \
+            build/ZAssist.ipa
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
