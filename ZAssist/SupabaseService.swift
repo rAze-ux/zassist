@@ -102,7 +102,7 @@ final class SupabaseService {
 
     func signUp(email: String, password: String) async throws -> AuthSession {
         let req = try request("POST", "/auth/v1/signup", body: Credentials(email: email, password: password))
-        let auth = try await decode(AuthSession.self, from: await send(req))
+        let auth = try decode(AuthSession.self, from: await send(req))
         guard !auth.accessToken.isEmpty else {
             throw AppError.server("Аккаунт создан. Откройте письмо от Supabase, подтвердите email и войдите.")
         }
@@ -111,16 +111,16 @@ final class SupabaseService {
 
     func signIn(email: String, password: String) async throws -> AuthSession {
         let req = try request("POST", "/auth/v1/token",
-                              body: Credentials(email: email, password: password),
-                              query: ["grant_type=password"])
-        return try await decode(AuthSession.self, from: await send(req))
+                              query: ["grant_type=password"],
+                              body: Credentials(email: email, password: password))
+        return try decode(AuthSession.self, from: await send(req))
     }
 
     func refresh(_ refreshToken: String) async throws -> AuthSession {
         let req = try request("POST", "/auth/v1/token",
-                              body: RefreshBody(refreshToken: refreshToken),
-                              query: ["grant_type=refresh_token"])
-        return try await decode(AuthSession.self, from: await send(req))
+                              query: ["grant_type=refresh_token"],
+                              body: RefreshBody(refreshToken: refreshToken))
+        return try decode(AuthSession.self, from: await send(req))
     }
 
     func signOut(token: String, refreshToken: String?) async {
@@ -135,7 +135,7 @@ final class SupabaseService {
     func fetchProjects(token: String) async throws -> [Project] {
         let req = try request("GET", "/rest/v1/projects", token: token,
                               query: ["select=*", "order=created_at.desc"])
-        return try await decode([Project].self, from: await send(req))
+        return try decode([Project].self, from: await send(req))
     }
 
     func createProject(token: String, userId: UUID, title: String) async throws -> Project {
@@ -147,7 +147,7 @@ final class SupabaseService {
         let req = try request("POST", "/rest/v1/projects", token: token,
                               extraHeaders: ["Prefer": "return=representation"],
                               body: Body(userId: userId, title: title))
-        let rows = try await decode([Project].self, from: await send(req))
+        let rows = try decode([Project].self, from: await send(req))
         guard let project = rows.first else { throw AppError.invalidResponse }
         return project
     }
@@ -155,7 +155,8 @@ final class SupabaseService {
     func renameProject(token: String, id: UUID, title: String) async throws {
         struct Body: Codable { let title: String }
         let req = try request("PATCH", "/rest/v1/projects", token: token,
-                              body: Body(title: title), query: ["id=eq.\(id.uuidString)"])
+                              query: ["id=eq.\(id.uuidString)"],
+                              body: Body(title: title))
         _ = try await send(req)
     }
 
@@ -174,7 +175,7 @@ final class SupabaseService {
                                 "project_id=eq.\(projectId.uuidString)",
                                 "order=created_at.asc",
                               ])
-        return try await decode([ChatMessage].self, from: await send(req))
+        return try decode([ChatMessage].self, from: await send(req))
     }
 
     func insertMessage(token: String, userId: UUID, projectId: UUID, role: String, content: String) async throws -> ChatMessage {
@@ -192,7 +193,7 @@ final class SupabaseService {
         let req = try request("POST", "/rest/v1/messages", token: token,
                               extraHeaders: ["Prefer": "return=representation"],
                               body: Body(projectId: projectId, userId: userId, role: role, content: content))
-        let rows = try await decode([ChatMessage].self, from: await send(req))
+        let rows = try decode([ChatMessage].self, from: await send(req))
         guard let message = rows.first else { throw AppError.invalidResponse }
         return message
     }
