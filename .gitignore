@@ -8,3 +8,5 @@ xcuserdata/
 # Локальные секреты — не публиковать
 supabase-db-password.txt
 zai-api-key.txt
+# Чужие рабочие файлы — не часть проекта ZAssist
+wsfix/
