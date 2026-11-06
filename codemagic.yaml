@@ -1,0 +1,38 @@
+# Codemagic: сборка unsigned IPA для ZAssist
+# Бесплатные 500 минут/мес достаточно; машина Apple Silicon.
+workflows:
+  zassist-ipa:
+    name: ZAssist IPA (unsigned)
+    instance_type: mac_mini_m2
+    max_build_duration: 25
+    environment:
+      xcode: latest
+    scripts:
+      - name: Generate Xcode project
+        script: |
+          set -e
+          brew install xcodegen
+          xcodegen generate
+      - name: Archive (no code signing)
+        script: |
+          set -e
+          xcodebuild archive \
+            -project ZAssist.xcodeproj \
+            -scheme ZAssist \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -archivePath build/ZAssist.xcarchive \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            COMPILER_INDEX_STORE_ENABLE=NO
+      - name: Package IPA
+        script: |
+          set -e
+          mkdir -p build/Payload
+          cp -R "build/ZAssist.xcarchive/Products/Applications/ZAssist.app" build/Payload/
+          cd build
+          zip -qry ZAssist.ipa Payload
+          ls -lh ZAssist.ipa
+    artifacts:
+      - build/ZAssist.ipa
