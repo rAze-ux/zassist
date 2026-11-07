@@ -25,7 +25,7 @@ final class AppState: ObservableObject {
         didSet { UserDefaults.standard.set(zaiBaseURL, forKey: "cfg.zaiBaseURL") }
     }
     @Published var model: String {
-        didSet { UserDefaults.standard.set(model, forKey: "cfg.model") }
+        didSet { UserDefaults.standard.set(model, forKey: "cfg.model.v2") }
     }
     @Published var zaiKey: String {
         didSet { Keychain.set(zaiKey.isEmpty ? nil : zaiKey, for: "zai_key") }
@@ -52,7 +52,7 @@ final class AppState: ObservableObject {
         supabaseURL = defaults.string(forKey: "cfg.supabaseURL") ?? AppConfig.defaultSupabaseURL
         supabaseAnonKey = defaults.string(forKey: "cfg.supabaseAnonKey") ?? AppConfig.defaultSupabaseAnonKey
         zaiBaseURL = defaults.string(forKey: "cfg.zaiBaseURL") ?? AppConfig.defaultZaiBaseURL
-        model = defaults.string(forKey: "cfg.model") ?? AppConfig.defaultModel
+        model = defaults.string(forKey: "cfg.model.v2") ?? AppConfig.defaultModel
         zaiKey = Keychain.get("zai_key") ?? ""
 
         if let raw = Keychain.get("session"),

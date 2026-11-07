@@ -11,9 +11,10 @@ struct SettingsView: View {
                     .textInputAutocapitalization(.never)
                     .autocorrectionDisabled()
                 Picker("Модель", selection: $state.model) {
-                    Text("GLM-5.3 — самая умная").tag("glm-5.3")
-                    Text("GLM-5.3-FlashX — сбалансированная").tag("glm-5.3-flashx")
-                    Text("GLM-5.3-Flash — быстрая и дешёвая").tag("glm-5.3-flash")
+                    Text("GLM-4.7-Flash — бесплатно (рекомендую)").tag("glm-4.7-flash")
+                    Text("GLM-4.5-Flash — бесплатно").tag("glm-4.5-flash")
+                    Text("GLM-5.3-Flash — платная, дешёвая").tag("glm-5.3-flash")
+                    Text("GLM-5.3 — платная, самая умная").tag("glm-5.3")
                 }
                 TextField("Адрес API", text: $state.zaiBaseURL)
                     .keyboardType(.URL)

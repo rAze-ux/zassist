@@ -7,7 +7,8 @@ enum AppConfig {
     static let defaultZaiBaseURL = "https://api.z.ai/api/paas/v4"
 
     /// Модель по умолчанию (меняется в настройках приложения).
-    static let defaultModel = "glm-5.3-flash"
+    /// glm-4.7-flash бесплатна на z.ai — работает даже без баланса.
+    static let defaultModel = "glm-4.7-flash"
 
     /// Данные вашего проекта Supabase (supabase.com → Settings → API).
     /// Пример URL: https://abcdefgh.supabase.co
